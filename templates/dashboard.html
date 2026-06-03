@@ -2,18 +2,13 @@
 {% block title %}Dashboard – SmartPrep AI{% endblock %}
 
 {% block content %}
-
 <div class="page-header">
   <h1>📋 Certificates</h1>
-  <a href="{{ url_for('add_certificate') }}" class="btn btn-primary">
-    + Add Certificate
-  </a>
+  <a href="{{ url_for('add_certificate') }}" class="btn btn-primary">+ Add Certificate</a>
 </div>
 
 <div class="card">
-
   {% if certs %}
-
   <table>
     <thead>
       <tr>
@@ -28,84 +23,54 @@
     </thead>
 
     <tbody>
-
       {% for c in certs %}
       <tr>
-
-        <!-- CERT ID -->
-        <td>
-          <span class="badge">{{ c.certificate_id }}</span>
-        </td>
-
-        <!-- STUDENT -->
+        <td><span class="badge">{{ c.certificate_id }}</span></td>
         <td>{{ c.student_name }}</td>
-
-        <!-- COURSE -->
         <td>{{ c.course_name }}</td>
-
-        <!-- SCORE -->
         <td>{{ c.score }}</td>
-
-        <!-- DATE -->
         <td>{{ c.issue_date }}</td>
 
-        <!-- QR IMAGE -->
         <td>
-          <a href="{{ url_for('static', filename='qr/' ~ c.certificate_id ~ '.png') }}"
-             target="_blank">
-
+          <a href="{{ url_for('static', filename='qr/' ~ c.certificate_id ~ '.png') }}" target="_blank">
             <img class="qr-thumb"
                  src="{{ url_for('static', filename='qr/' ~ c.certificate_id ~ '.png') }}"
-                 alt="QR Code">
+                 alt="QR" />
           </a>
         </td>
 
-        <!-- ACTIONS -->
-        <td style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-
+        <td>
           <!-- VIEW -->
           <a href="{{ url_for('view_certificate', certificate_id=c.certificate_id) }}"
-             target="_blank"
-             class="btn btn-accent btn-sm">
+             target="_blank" class="btn btn-accent btn-sm">
             View
           </a>
 
-          <!-- DOWNLOAD QR 🔥 -->
+          <!-- DOWNLOAD QR -->
           <a href="{{ url_for('static', filename='qr/' ~ c.certificate_id ~ '.png') }}"
-             download
-             class="btn btn-primary btn-sm">
-            Download QR
+             download class="btn btn-secondary btn-sm">
+            QR
           </a>
 
           <!-- DELETE -->
           <form action="{{ url_for('delete_certificate', certificate_id=c.certificate_id) }}"
                 method="POST"
-                onsubmit="return confirm('⚠ Permanently delete this certificate?');">
+                style="display:inline;"
+                onsubmit="return confirm('Delete this certificate permanently?');">
 
-            <button type="submit"
-                    class="btn btn-danger btn-sm">
+            <button type="submit" class="btn btn-danger btn-sm">
               Delete
             </button>
-
           </form>
 
         </td>
-
       </tr>
       {% endfor %}
-
     </tbody>
+
   </table>
-
   {% else %}
-
-  <p style="color:#757575; text-align:center; padding:2rem 0;">
-    No certificates yet.
-    <a href="{{ url_for('add_certificate') }}">Add the first one →</a>
-  </p>
-
+  <p style="text-align:center; padding:2rem;">No certificates found.</p>
   {% endif %}
-
 </div>
-
 {% endblock %}
